@@ -46,7 +46,7 @@ def size_tree(root):
     return  1+size_tree(root.left)+size_tree(root.right)
 
 def size(my_bst):
-    return size_tree(my_bst('root'))
+    return size_tree(my_bst['root'])
 
 
 
