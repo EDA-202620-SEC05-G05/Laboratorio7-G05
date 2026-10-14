@@ -48,7 +48,21 @@ def size_tree(root):
 def size(my_bst):
     return size_tree(my_bst['root'])
 
+def get_node(root, key):
+    """Busca recursivamente la llave y retorna el nodo encontrado, o None si no existe."""
+    if root is None:
+        return None
+ 
+    cmp = default_compare(key, root)
+    if cmp < 0:
+        return get_node(root["left"], key)
+    elif cmp > 0:
+        return get_node(root["right"], key)
+    return root
 
-
+def get(my_bst, key):
+    """Retorna el valor asociado a la llave, o None si no existe."""
+    node = get_node(my_bst["root"], key)
+    return bs.get_value(node)
 
 
