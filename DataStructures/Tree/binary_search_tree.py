@@ -66,3 +66,54 @@ def get(my_bst, key):
     return bs.get_value(node)
 
 
+def contains(my_bst, key):
+    if get(my_bst,key)==None:
+        return False
+    else:
+        return True
+
+def is_empty(my_bst):
+    if my_bst('root')==None:
+        return False
+    else:
+        return True
+
+def key_set(my_bst):
+    llaves=sll.new_list()
+    if my_bst is not None and my_bst['root'] is not None:
+            key_set_tree(my_bst['root'],llaves)
+    return llaves
+
+def key_set_tree(node, my_list):
+    if node is None:
+        return my_list
+    key_set_tree(node['left'], my_list)
+
+    llave=bs.get_key(node)
+    sll.add_last(my_list,llave)
+
+    key_set_tree(node['right'], my_list)
+    return my_list
+
+def value_set(my_bst):
+    llaves=sll.new_list()
+    if my_bst is not None and my_bst['root'] is not None:
+            value_set_tree(my_bst['root'],llaves)
+    return llaves
+
+def value_set_tree(node, my_list):
+    if node is None:
+        return my_list
+    value_set_tree(node['left'], my_list)
+
+    llave=bs.get_value(node)
+    sll.add_last(my_list,llave)
+
+    value_set_tree(node['right'], my_list)
+    return my_list
+
+
+
+
+
+
