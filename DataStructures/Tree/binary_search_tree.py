@@ -185,12 +185,15 @@ def delete_max_tree(root):
  
 def height(my_bst):
     """Retorna la altura del árbol (0 si está vacío)."""
-    return height_tree(my_bst["root"])
- 
- 
-def height_tree(root):
-    if root is None:
+    if my_bst["root"] is None:
         return 0
+    return height_tree(my_bst["root"])
+
+
+def height_tree(root):
+    """Altura en aristas: un nodo hoja tiene altura 0."""
+    if root is None:
+        return -1
     return 1 + max(height_tree(root["left"]), height_tree(root["right"]))
  
  
