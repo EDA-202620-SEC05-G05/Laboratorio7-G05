@@ -1,4 +1,5 @@
 import bst_node as bs
+from DataStructures.List import single_linked_list as sll
 
 def new_map():
     """Crea una tabla de símbolos ordenada vacía basada en un BST."""
@@ -112,8 +113,165 @@ def value_set_tree(node, my_list):
     value_set_tree(node['right'], my_list)
     return my_list
 
+def get_min(my_bst):
+    """
+    Retorna la llave mínima del árbol.
+    
+    Args:
+        my_bst (dict): El árbol BST
+    
+    Returns:
+        La llave mínima, o None si el árbol está vacío
+    """
+    if my_bst is None or my_bst['root'] is None:
+        return None
+    
+    min_node = get_min_node(my_bst['root'])
+    if min_node is not None:
+        return bs.get_key(min_node)
+    return None
 
 
+def get_min_node(root):
+    """
+    Encuentra la llave mínima en un subárbol.
+    AYUDA Función recursiva
+    
+    Args:
+        root (bst_node): Raíz del subárbol. root No puede ser None.
+    
+    Returns:
+        La llave mínima del subárbol
+    """
+    if root is None:
+        return None
+    
+    left = root['left']
+    if left is None:
+        return root
+    
+    return get_min_node(left)
 
+
+def get_max(my_bst):
+    """
+    Retorna la llave máxima del árbol.
+    
+    Args:
+        my_bst (dict): El árbol BST
+    
+    Returns:
+        La llave máxima, o None si el árbol está vacío
+    """
+    if my_bst is None or my_bst['root'] is None:
+        return None
+    
+    max_node = get_max_node(my_bst['root'])
+    if max_node is not None:
+        return bs.get_key(max_node)
+    return None
+
+
+def get_max_node(root):
+    """
+    Encuentra la llave maxima en un subárbol.
+    AYUDA Función recursiva
+    
+    Args:
+        root (dict): Raíz del subárbol. root No puede ser None.
+    
+    Returns:
+        La llave máxima del subárbol
+    """
+    if root is None:
+        return None
+    
+    right = root['right']
+    if right is None:
+        return root
+    
+    return get_max_node(right)
+
+def delete_min(my_bst):
+    if my_bst is not None and my_bst['root'] is not None:
+        my_bst['root'] = delete_min_tree(my_bst['root'])
+    return my_bst
+
+def delete_min_tree(root):
+    if root is None:
+        return None
+    if root['left'] is None:
+        return root['right']
+    root['left'] = delete_min_tree(root['left'])
+    root['size'] = 1 + size_tree(root['left']) + size_tree(root['right'])
+    return root
+
+def delete_max(my_bst):
+    if my_bst is not None and my_bst['root'] is not None:
+        my_bst['root'] = delete_max_tree(my_bst['root'])
+    return my_bst
+
+def delete_max_tree(root):
+    if root is None:
+        return None
+    if root['right'] is None:
+        return root['left']
+    root['right'] = delete_max_tree(root['right'])
+    root['size'] = 1 + size_tree(root['left']) + size_tree(root['right'])
+    return root
+
+def height(my_bst):
+
+    if my_bst is None or my_bst['root'] is None:
+        return -1
+    return height_node(my_bst['root'])
+
+def height_node(root):
+
+    if root is None:
+        return -1
+    
+    left = root['left']
+    right = root['right']
+    
+    return 1 + max(height_node(left), height_node(right))
+
+def keys(my_bst, key_initial, key_final):
+    my_list = sll.new_list()
+    if my_bst is not None and my_bst['root'] is not None:
+        keys_range(my_bst['root'], key_initial, key_final, my_list)
+    return my_list
+
+def keys_range(root, key_initial, key_final, list_key):
+    if root is None:
+        return list_key
+    cmplo = default_compare(key_initial, root)
+    cmphi = default_compare(key_final, root)
+    if cmplo < 0:
+        keys_range(root['left'], key_initial, key_final, list_key)
+    if cmplo <= 0 and cmphi >= 0:
+        sll.add_last(list_key, bs.get_key(root))
+    if cmphi > 0:
+        keys_range(root['right'], key_initial, key_final, list_key)
+    return list_key
+
+def values(my_bst, key_initial, key_final):
+    my_list = sll.new_list()
+    if my_bst is not None and my_bst['root'] is not None:
+        values_range(my_bst['root'], key_initial, key_final, my_list)
+    return my_list
+
+def values_range(root, key_initial, key_final, list_value):
+    if root is None:
+        return list_value
+    cmplo = default_compare(key_initial, root)
+    cmphi = default_compare(key_final, root)
+    if cmplo < 0:
+        values_range(root['left'], key_initial, key_final, list_value)
+    if cmplo <= 0 and cmphi >= 0:
+        sll.add_last(list_value, bs.get_value(root))
+    if cmphi > 0:
+        values_range(root['right'], key_initial, key_final, list_value)
+    return list_value
 
 
